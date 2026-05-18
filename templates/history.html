@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}История задач{% endblock %}
+
+{% block extra_styles %}
+<style>
+    .history-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; box-sizing: border-box; flex: 1; width: 100%; }
+    h2 { color: var(--main-color); border-bottom: 2px solid #ddd; padding-bottom: 10px; margin-bottom: 25px; }
+    .tasks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .task-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.01); border-left: 6px solid var(--success-color); opacity: 0.75; display: flex; flex-direction: column; justify-content: space-between; }
+    .task-title { font-size: 18px; font-weight: bold; margin: 0 0 8px 0; color: #555; text-decoration: line-through; }
+    .task-desc { margin: 0 0 12px 0; color: #95a5a6; font-size: 14px; }
+    .task-footer { border-top: 1px solid #f1f2f6; padding-top: 12px; color: var(--success-color); font-weight: bold; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <h2>✅ Архив выполненных задач</h2>
+    <div class="tasks-grid">
+        {% if not tasks %}
+            <p style="color: #7f8c8d;">В архиве пока пусто. Время закрыть пару тасков!</p>
+        {% endif %}
+
+        {% for task in tasks %}
+            <div class="task-card">
+                <div>
+                    <h3 class="task-title">{{ task.title }}</h3>
+                    <p class="task-desc">{{ task.description if task.description else 'Без описания.' }}</p>
+                </div>
+                <div class="task-footer">
+                    ✓ Задача успешно выполнена
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

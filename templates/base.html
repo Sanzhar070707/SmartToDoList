@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Smart To-Do List{% endblock %}</title>
+    <style>
+        /* Твои фирменные цвета и стили */
+        :root {
+            --bg-color: #f0f2f5;
+            --main-color: #2c3e50;
+            --accent-color: #3498db;
+            --purple-color: #9b59b6;
+            --success-color: #2ecc71;
+            --warning-color: #e67e22;
+            --danger-color: #e74c3c;
+            --text-color: #333;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Верхнее меню навигации (4 страницы по критериям) */
+        .nav-menu {
+            background: #1a252f;
+            padding: 15px 20px;
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .nav-menu a {
+            color: #bdc3c7;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: color 0.2s, border-bottom 0.2s;
+            padding-bottom: 5px;
+        }
+
+        .nav-menu a:hover {
+            color: white;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Общие стили для карточек, которые мы сохранили */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 11px;
+            border-radius: 20px;
+            color: white;
+            font-weight: bold;
+        }
+        .badge-urgent { background-color: var(--danger-color); }
+        .badge-today { background-color: var(--warning-color); }
+        .badge-overdue { background-color: #c0392b; }
+    </style>
+    {% block extra_styles %}{% endblock %}
+</head>
+<body>
+
+    <div class="nav-menu">
+        <a href="/">📋 Все задачи</a>
+        <a href="/urgent">🔥 Только срочные</a>
+        <a href="/history">✅ История (Архив)</a>
+        <a href="/analytics">📊 Статистика</a>
+    </div>
+
+    {% block content %}{% endblock %}
+
+</body>
+</html>

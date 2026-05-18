@@ -48,5 +48,32 @@
         "deadline": "2026-05-18",
         "is_completed": false,
         "type": "regular"
+    },
+    {
+        "task_id": 1779133162096,
+        "title": "папа",
+        "description": "",
+        "deadline": "2026-05-19",
+        "is_completed": false,
+        "type": "urgent",
+        "urgency_level": "Critical"
+    },
+    {
+        "task_id": 1779133162097,
+        "title": "МАМА",
+        "description": "",
+        "deadline": "2026-05-21",
+        "is_completed": true,
+        "type": "regular",
+        "urgency_level": null
+    },
+    {
+        "task_id": 1779133162098,
+        "title": "Чача",
+        "description": "ааааааааааа",
+        "deadline": "2026-05-20",
+        "is_completed": false,
+        "type": "urgent",
+        "urgency_level": "Medium"
     }
 ]
