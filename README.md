@@ -1,6 +1,7 @@
+
 # Smart To-Do List (Flask Web Application)
 
-A lightweight and efficient web application built with Flask for local task management, deadline tracking, and personal productivity analysis. This project is developed as part of the Object-Oriented Programming (OOP) course at Astana IT University.
+A lightweight and efficient web application built with Flask for local task management, deadline tracking, and personal productivity analysis. This project is developed as part of the Object-Oriented Programming (OOP) course.
 
 ## Core Features
 * **Task Management (CRUD Layout):** Add regular and urgent tasks with strict deadlines without duplicates or errors.
@@ -25,6 +26,8 @@ A lightweight and efficient web application built with Flask for local task mana
   * `analytics.html` — Statistical visualization page calculating real-time execution indexes.
 
 ## How to Run the Project Locally
-1. Clone the public GitHub repository:
-```bash
-git clone [https://github.com/Sanzhar070707/SmartToDoList.git](https://github.com/Sanzhar070707/SmartToDoList.git)
+1. Clone the public GitHub repository by running: **git clone https://github.com/Sanzhar070707/SmartToDoList.git**
+2. Navigate to the project root folder by running: **cd SmartToDoList**
+3. Install the standard Flask library dependency by running: **pip install flask**
+4. Fire up the backend application server by running: **python app.py**
+5. Launch your internet browser and navigate to the local address: **http://127.0.0.1:5000/**
