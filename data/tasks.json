@@ -1,0 +1,52 @@
+[
+    {
+        "task_id": 1779132233815,
+        "title": "Подготовиться к экзамену",
+        "description": "Решить 150 задачи по тригонометрии",
+        "deadline": "2026-05-24",
+        "is_completed": true,
+        "type": "regular"
+    },
+    {
+        "task_id": 1779132308548,
+        "title": "Помочь другу",
+        "description": "Надо копать землю",
+        "deadline": "2026-05-21",
+        "is_completed": false,
+        "type": "regular"
+    },
+    {
+        "task_id": 1779132415060,
+        "title": "Пойти в зал",
+        "description": "",
+        "deadline": "2026-05-19",
+        "is_completed": false,
+        "type": "regular"
+    },
+    {
+        "task_id": 1779132456532,
+        "title": "Пойти к врачу",
+        "description": "",
+        "deadline": "2026-05-19",
+        "is_completed": true,
+        "type": "urgent",
+        "urgency_level": "Critical"
+    },
+    {
+        "task_id": 1779132897906,
+        "title": "найти друга",
+        "description": "",
+        "deadline": "2026-05-19",
+        "is_completed": true,
+        "type": "urgent",
+        "urgency_level": "Medium"
+    },
+    {
+        "task_id": 1779133162095,
+        "title": "лттлттл",
+        "description": "",
+        "deadline": "2026-05-18",
+        "is_completed": false,
+        "type": "regular"
+    }
+]

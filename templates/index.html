@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой Списки Задач</title>
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --main-color: #2c3e50;
+            --accent-color: #3498db;
+            --purple-color: #9b59b6;
+            --success-color: #2ecc71;
+            --warning-color: #e67e22;
+            --danger-color: #e74c3c;
+            --text-color: #333;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 320px;
+            background: var(--main-color);
+            color: white;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar h1 {
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 25px;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .main-content {
+            margin-left: 320px;
+            flex: 1;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .main-content h2 {
+            color: var(--main-color);
+            margin-top: 0;
+            margin-bottom: 25px;
+            font-size: 22px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .btn-analytics {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background-color: var(--purple-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+            transition: background 0.2s, transform 0.1s;
+        }
+        .btn-analytics:hover {
+            background-color: #8e44ad;
+            transform: translateY(-2px);
+        }
+
+        .form-box h3 {
+            margin-top: 0;
+            color: #ecf0f1;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 14px; color: #bdc3c7; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #34495e;
+            border-radius: 6px;
+            box-sizing: border-box;
+            background-color: #34495e;
+            color: white;
+            font-family: inherit;
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #95a5a6; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-submit {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background-color: #2980b9; }
+
+        .tasks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .task-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border-left: 6px solid #bdc3c7;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .task-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.06);
+        }
+
+        .task-card.status-today { border-left-color: var(--warning-color); }
+        .task-card.status-overdue { border-left-color: var(--danger-color); }
+        .task-card.urgent { border-left-style: double; border-left-width: 10px; }
+        .task-card.completed { opacity: 0.5; border-left-color: var(--success-color) !important; background-color: #fafdfb !important; transform: none !important; box-shadow: none !important; }
+
+        .task-body { margin-bottom: 15px; }
+        .task-title { font-size: 18px; font-weight: bold; margin: 0 0 8px 0; color: var(--main-color); }
+        .task-desc { margin: 0 0 12px 0; color: #7f8c8d; font-size: 14px; line-height: 1.4; }
+
+        .task-footer {
+            border-top: 1px solid #f1f2f6;
+            padding-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .deadline-text { font-size: 13px; color: #57606f; }
+
+        .badges-wrapper { display: flex; flex-wrap: wrap; gap: 5px; }
+        .badge { display: inline-block; padding: 4px 10px; font-size: 11px; border-radius: 20px; color: white; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3px; }
+        .badge-urgent { background-color: var(--danger-color); }
+        .badge-today { background-color: var(--warning-color); }
+        .badge-overdue { background-color: #c0392b; }
+
+        .action-zone { display: flex; justify-content: flex-end; margin-top: 5px; }
+        .complete-link {
+            background-color: transparent;
+            color: var(--success-color);
+            border: 2px solid var(--success-color);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .complete-link:hover {
+            background-color: var(--success-color);
+            color: white;
+        }
+        .status-text { font-weight: bold; color: var(--success-color); font-size: 14px; display: flex; align-items: center; gap: 4px; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h1>Мои Дела 🎯</h1>
+
+        <a href="/analytics" class="btn-analytics">Статистика и отчеты 📊</a>
+
+        <div class="form-box">
+            <h3>Добавить задачу</h3>
+            <form action="/add" method="POST">
+                <div class="form-group">
+                    <label for="title">Что нужно сделать:</label>
+                    <input type="text" id="title" name="title" required placeholder="Например: Сдать лабу">
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание (детали):</label>
+                    <textarea id="description" name="description" rows="3" placeholder="Что конкретно нужно сделать..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="deadline">Сделать до (дедлайн):</label>
+                    <input type="date" id="deadline" name="deadline" required>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px; margin: 20px 0;">
+                    <input type="checkbox" id="is_urgent" name="is_urgent" style="width: auto; margin: 0;">
+                    <label for="is_urgent" style="margin: 0; color: #ecf0f1; cursor: pointer;">Важная / Срочная</label>
+                </div>
+                <div class="form-group">
+                    <label for="urgency_level">Уровень важности:</label>
+                    <select id="urgency_level" name="urgency_level">
+                        <option value="High">Высокий</option>
+                        <option value="Medium">Средний</option>
+                        <option value="Critical">Критический</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">Добавить в список</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2>Список текущих задач</h2>
+
+        <div class="tasks-grid">
+            {% if not tasks %}
+                <p style="color: #7f8c8d; grid-column: 1/-1; text-align: center; margin-top: 40px;">Пока никаких задач нет. Добавь что-нибудь в панели слева!</p>
+            {% endif %}
+
+            {% for task in tasks %}
+                <div class="task-card {% if task.type == 'urgent' %}urgent{% endif %} {% if task.is_completed %}completed{% else %}status-{{ task.get_date_status() }}{% endif %}">
+
+                    <div class="task-body">
+                        <h3 class="task-title">{{ task.title }}</h3>
+                        <p class="task-desc">{{ task.description if task.description else 'Без описания.' }}</p>
+                    </div>
+
+                    <div class="task-footer">
+                        <div class="deadline-text">📅 Срок: <b>{{ task.deadline }}</b></div>
+
+                        <div class="badges-wrapper">
+                            {% if task.type == 'urgent' %}
+                                <span class="badge badge-urgent">🔥 {{ task.urgency_level }}</span>
+                            {% endif %}
+
+                            {% if not task.is_completed %}
+                                {% if task.get_date_status() == 'today' %}
+                                    <span class="badge badge-today">⌛ Сделать сегодня</span>
+                                {% elif task.get_date_status() == 'overdue' %}
+                                    <span class="badge badge-overdue">⚠️ Горит дедлайн</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+
+                        <div class="action-zone">
+                            {% if not task.is_completed %}
+                                <a href="{{ url_for('complete_task', task_id=task.task_id) }}" class="complete-link">Готово</a>
+                            {% else %}
+                                <span class="status-text">✓ Выполнено</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
