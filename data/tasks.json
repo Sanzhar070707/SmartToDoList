@@ -75,5 +75,14 @@
         "is_completed": false,
         "type": "urgent",
         "urgency_level": "Medium"
+    },
+    {
+        "task_id": 1779133162099,
+        "title": "ЫЫЫЫЫЫЫЫ",
+        "description": "",
+        "deadline": "2026-05-20",
+        "is_completed": true,
+        "type": "regular",
+        "urgency_level": null
     }
 ]

@@ -8,7 +8,6 @@ app = Flask(__name__)
 DATA_FILE = 'data/tasks.json'
 
 
-# Безопасное чтение файла (Критерий Robustness - обработка исключений)
 def load_tasks_from_json():
     if not os.path.exists(DATA_FILE):
         return []
@@ -17,22 +16,19 @@ def load_tasks_from_json():
             data = json.load(f)
             return data if isinstance(data, list) else []
     except (json.JSONDecodeError, FileNotFoundError):
-        return []  # Если файл пуст или поврежден, приложение не падает, а возвращает пустой список
+        return []
 
 
-# Сохранение данных
 def save_tasks_to_json(tasks):
     os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
         json.dump(tasks, f, ensure_ascii=False, indent=4)
 
 
-# Превращение сырых данных из JSON в объекты ООП (с защитой от KeyError)
 def get_all_tasks():
     raw_data = load_tasks_from_json()
     objects_list = []
     for t in raw_data:
-        # Используем .get(), чтобы если какого-то поля нет, программа не падала
         t_id = t.get('task_id') if t.get('task_id') is not None else t.get('id', 0)
         title = t.get('title', 'Без названия')
         description = t.get('description', '')
@@ -47,18 +43,13 @@ def get_all_tasks():
     return objects_list
 
 
-# ================= МАРШРУТЫ (СТРАНИЦЫ ПРИЛОЖЕНИЯ) =================
-
-# 1. ГЛАВНАЯ СТРАНИЦА: Список всех активных задач
 @app.route('/')
 def index():
     all_tasks = get_all_tasks()
-    # Показываем только те, которые еще не выполнены
     active_tasks = [t for t in all_tasks if not t.is_completed]
     return render_template('index.html', tasks=active_tasks)
 
 
-# 2. СТРАНИЦА СТАТИСТИКИ (АНАЛИТИКА)
 @app.route('/analytics')
 def analytics():
     all_tasks = get_all_tasks()
@@ -70,17 +61,14 @@ def analytics():
     return render_template('analytics.html', total=total, completed=completed, overdue=overdue, efficiency=efficiency)
 
 
-# 3. СТРАНИЦА СРОЧНЫХ ЗАДАЧ (Использование нашего продвинутого ООП-генератора)
 @app.route('/urgent')
 def urgent_page():
     all_tasks = get_all_tasks()
-    # Вызываем генератор через yield для фильтрации срочных задач
     urgent_generator = TaskFilter.get_urgent_generator(all_tasks)
-    urgent_tasks = list(urgent_generator)  # Превращаем результат генератора в список для вывода
+    urgent_tasks = list(urgent_generator)
     return render_template('urgent.html', tasks=urgent_tasks)
 
 
-# 4. СТРАНИЦА ИСТОРИИ (Архив выполненных задач)
 @app.route('/history')
 def history_page():
     all_tasks = get_all_tasks()
@@ -88,9 +76,6 @@ def history_page():
     return render_template('history.html', tasks=completed_tasks)
 
 
-# ================= ВСПOМОГАТЕЛЬНАЯ ЛОГИКА (ФУНКЦИИ) =================
-
-# Добавление новой задачи
 @app.route('/add', methods=['POST'])
 def add_task():
     title = request.form.get('title')
@@ -100,7 +85,6 @@ def add_task():
     urgency_level = request.form.get('urgency_level', 'Medium')
 
     raw_tasks = load_tasks_from_json()
-    # Генерируем новый task_id
     new_id = max([t.get('task_id', t.get('id', 0)) for t in raw_tasks], default=0) + 1
 
     new_task_dict = {
@@ -117,7 +101,6 @@ def add_task():
     return redirect(url_for('index'))
 
 
-# Отметка задачи как выполненной
 @app.route('/complete/<int:task_id>')
 def complete_task(task_id):
     raw_tasks = load_tasks_from_json()
